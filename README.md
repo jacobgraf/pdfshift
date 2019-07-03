@@ -24,20 +24,22 @@ To install the plugin, follow these instructions.
 
 ## PDFShift Overview
 
--Insert text here-
+Stop wasting time implementing and maintaining a third-party software/library.
 
-## Configuring PDFShift
+With PDFShift, rely on an up-to-date, high-fidelity conversion API with no maintenance costs.
 
--Insert text here-
 
 ## Using PDFShift
 
--Insert text here-
+```
+{{ craft.pdfShift.run source="<url>" option="<value>" }}
 
-## PDFShift Roadmap
+```
 
-Some things to do, and ideas for potential features:
+### Available Options
 
-* Release it
+All available options are listed here [https://docs.pdfshift.io/#general](https://docs.pdfshift.io/#general)
+
+---
 
 Brought to you by [Graf Technology, LLC](https://graftechnology.com/)

@@ -15,13 +15,6 @@ use graftechnology\pdfshift\PDFShift;
 use Craft;
 
 /**
- * PDFShift Variable
- *
- * Craft allows plugins to provide their own template variables, accessible from
- * the {{ craft }} global variable (e.g. {{ craft.pDFShift }}).
- *
- * https://craftcms.com/docs/plugins/variables
- *
  * @author    Graf Technology, LLC
  * @package   PDFShift
  * @since     1.0.0
@@ -32,25 +25,25 @@ class PDFShiftVariable
     // =========================================================================
 
     /**
-     * Whatever you want to output to a Twig template can go into a Variable method.
-     * You can have as many variable functions as you want.  From any Twig template,
-     * call it like this:
-     *
-     *     {{ craft.pDFShift.exampleVariable }}
-     *
-     * Or, if your variable requires parameters from Twig:
-     *
-     *     {{ craft.pDFShift.exampleVariable(twigValue) }}
-     *
-     * @param null $optional
+     * @param null $options
      * @return string
      */
-    public function exampleVariable($optional = null)
+    public function __construct($options = [])
     {
-        $result = "And away we go to the Twig template...";
-        if ($optional) {
-            $result = "I'm feeling optional today...";
-        }
-        return $result;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.pdfshift.io/v2/convert/",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($options),
+            CURLOPT_HTTPHEADER => array('Content-Type:application/json'),
+            CURLOPT_USERPWD => $this->settings()->apiKey,
+        ));
+
+        $response = curl_exec($curl);
+        return file_put_contents('document.pdf', $response);
+
     }
+
 }

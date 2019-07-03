@@ -1,0 +1,26 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * PDFShift plugin for Craft CMS 3.x
+ *
+ * PDFShift Settings.twig
+ *
+ * @author    Graf Technology, LLC
+ * @copyright Copyright (c) 2019 Graf Technology, LLC
+ * @link      https://graftechnology.com/
+ * @package   PDFShift
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("graftechnology\\pdfshift\\assetbundles\\pdfshift\\PDFShiftAsset") %}
+
+{{ forms.textField({
+    label: 'API Key',
+    instructions: 'Enter your PDFShift API Key here.',
+    id: 'apiKey',
+    name: 'apiKey',
+    value: settings.apiKey
+}) }}

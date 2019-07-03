@@ -32,7 +32,7 @@
     "extra": {
         "name": "PDFShift",
         "handle": "pdfshift",
-        "hasCpSettings": false,
+        "hasCpSettings": true,
         "hasCpSection": false,
         "changelogUrl": "https://raw.githubusercontent.com/jacobgraf/pdfshift/master/CHANGELOG.md",
         "class": "graftechnology\\pdfshift\\PDFShift"

@@ -1,0 +1,40 @@
+{
+    "name": "graftechnology/pdfshift",
+    "description": "Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "pdfshift"
+    ],
+    "support": {
+        "docs": "https://github.com/jacobgraf/pdfshift/blob/master/README.md",
+        "issues": "https://github.com/jacobgraf/pdfshift/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Graf Technology, LLC",
+            "homepage": "https://graftechnology.com/"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "graftechnology\\pdfshift\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "PDFShift",
+        "handle": "pdfshift",
+        "hasCpSettings": false,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/jacobgraf/pdfshift/master/CHANGELOG.md",
+        "class": "graftechnology\\pdfshift\\PDFShift"
+    }
+}

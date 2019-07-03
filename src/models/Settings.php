@@ -28,7 +28,7 @@ class Settings extends Model
     /**
      * @var string
      */
-    public $apiKey = '';
+    public $apiKey = 'apikey';
 
     // Public Methods
     // =========================================================================

@@ -103,7 +103,7 @@ class PDFShift extends Plugin
     /**
      * @inheritdoc
      */
-    protected function settingsHtml()
+    protected function settingsHtml(): string
     {
         return Craft::$app->view->renderTemplate(
             'pdfshift/settings',

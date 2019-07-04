@@ -28,7 +28,7 @@ class PDFShiftVariable
      * @param null $options
      * @return string
      */
-    public function __construct($options = [])
+    public function create($options = [])
     {
         $curl = curl_init();
 
@@ -38,12 +38,12 @@ class PDFShiftVariable
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => json_encode($options),
             CURLOPT_HTTPHEADER => array('Content-Type:application/json'),
-            CURLOPT_USERPWD => $this->settings()->apiKey,
+            CURLOPT_USERPWD => \graftechnology\pdfshift\PDFShift::getInstance()->getSettings()->apiKey,
         ));
 
         $response = curl_exec($curl);
-        return file_put_contents('document.pdf', $response);
-
+        $filename = isset($options['filename']) ? $options['filename'] . '.pdf' : 'document.pdf';
+        file_put_contents($filename, $response);
     }
 
 }

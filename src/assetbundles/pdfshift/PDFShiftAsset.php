@@ -1,6 +1,6 @@
 <?php
 /**
- * PDFShift plugin for Craft CMS 3.x
+ * PdfShift plugin for Craft CMS 3.x
  *
  * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
  *
@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2019 Graf Technology, LLC
  */
 
-namespace graftechnology\pdfshift\assetbundles\PDFShift;
+namespace graftechnology\pdfshift\assetbundles\PdfShift;
 
 use Craft;
 use craft\web\AssetBundle;
@@ -16,10 +16,10 @@ use craft\web\assets\cp\CpAsset;
 
 /**
  * @author    Graf Technology, LLC
- * @package   PDFShift
+ * @package   PdfShift
  * @since     1.0.0
  */
-class PDFShiftAsset extends AssetBundle
+class PdfShiftAsset extends AssetBundle
 {
     // Public Methods
     // =========================================================================
@@ -36,11 +36,11 @@ class PDFShiftAsset extends AssetBundle
         ];
 
         $this->js = [
-            'js/PDFShift.js',
+            'js/PdfShift.js',
         ];
 
         $this->css = [
-            'css/PDFShift.css',
+            'css/PdfShift.css',
         ];
 
         parent::init();

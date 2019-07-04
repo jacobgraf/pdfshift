@@ -1,6 +1,6 @@
 <?php
 /**
- * PDFShift plugin for Craft CMS 3.x
+ * PdfShift plugin for Craft CMS 3.x
  *
  * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
  *
@@ -9,9 +9,9 @@
  */
 
 /**
- * PDFShift config.php
+ * PdfShift config.php
  *
- * This file exists only as a template for the PDFShift settings.
+ * This file exists only as a template for the PdfShift settings.
  * It does nothing on its own.
  *
  * Don't edit this file, instead copy it to 'craft/config' as 'pdfshift.php'

@@ -1,6 +1,6 @@
 <?php
 /**
- * PDFShift plugin for Craft CMS 3.x
+ * PdfShift plugin for Craft CMS 3.x
  *
  * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
  *
@@ -10,14 +10,14 @@
 
 namespace graftechnology\pdfshift\models;
 
-use graftechnology\pdfshift\PDFShift;
+use graftechnology\pdfshift\PdfShift;
 
 use Craft;
 use craft\base\Model;
 
 /**
  * @author    Graf Technology, LLC
- * @package   PDFShift
+ * @package   PdfShift
  * @since     1.0.0
  */
 class Settings extends Model
@@ -39,7 +39,8 @@ class Settings extends Model
     public function rules()
     {
         return [
-            [['apiKey'], 'required'],
+            ['apiKey', 'string'],
+            ['apiKey', 'default', 'value' => ''],
         ];
     }
 }

@@ -1,11 +1,11 @@
 /**
- * PDFShift plugin for Craft CMS
+ * PdfShift plugin for Craft CMS
  *
- * PDFShift JS
+ * PdfShift JS
  *
  * @author    Graf Technology, LLC
  * @copyright Copyright (c) 2019 Graf Technology, LLC
  * @link      https://graftechnology.com/
- * @package   PDFShift
+ * @package   PdfShift
  * @since     1.0.0
  */

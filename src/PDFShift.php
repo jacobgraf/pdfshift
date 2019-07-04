@@ -1,6 +1,6 @@
 <?php
 /**
- * PDFShift plugin for Craft CMS 3.x
+ * PdfShift plugin for Craft CMS 3.x
  *
  * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
  *
@@ -10,7 +10,7 @@
 
 namespace graftechnology\pdfshift;
 
-use graftechnology\pdfshift\variables\PDFShiftVariable;
+use graftechnology\pdfshift\variables\PdfShiftVariable;
 use graftechnology\pdfshift\models\Settings;
 
 use Craft;
@@ -22,20 +22,20 @@ use craft\web\twig\variables\CraftVariable;
 use yii\base\Event;
 
 /**
- * Class PDFShift
+ * Class PdfShift
  *
  * @author    Graf Technology, LLC
- * @package   PDFShift
+ * @package   PdfShift
  * @since     1.0.0
  *
  */
-class PDFShift extends Plugin
+class PdfShift extends Plugin
 {
     // Static Properties
     // =========================================================================
 
     /**
-     * @var PDFShift
+     * @var PdfShift
      */
     public static $plugin;
 
@@ -66,7 +66,7 @@ class PDFShift extends Plugin
             function (Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
-                $variable->set('pDFShift', PDFShiftVariable::class);
+                $variable->set('pdfShift', PdfShiftVariable::class);
             }
         );
 

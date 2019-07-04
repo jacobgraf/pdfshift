@@ -30,11 +30,11 @@
         }
     },
     "extra": {
-        "name": "PDFShift",
+        "name": "PdfShift",
         "handle": "pdfshift",
         "hasCpSettings": true,
         "hasCpSection": false,
         "changelogUrl": "https://raw.githubusercontent.com/jacobgraf/pdfshift/master/CHANGELOG.md",
-        "class": "graftechnology\\pdfshift\\PDFShift"
+        "class": "graftechnology\\pdfshift\\PdfShift"
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PDFShift plugin for Craft CMS 3.x
+ * PdfShift plugin for Craft CMS 3.x
  *
  * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
  *
@@ -10,26 +10,61 @@
 
 namespace graftechnology\pdfshift\variables;
 
-use graftechnology\pdfshift\PDFShift;
+use graftechnology\pdfshift\PdfShift;
 
 use Craft;
 
 /**
  * @author    Graf Technology, LLC
- * @package   PDFShift
+ * @package   PdfShift
  * @since     1.0.0
  */
-class PDFShiftVariable
+class PdfShiftVariable
 {
     // Public Methods
     // =========================================================================
 
     /**
-     * @param null $options
+     * Download generated PDF document
+     * 
+     * @param null $options PDFShift options
+     * 
+     * @return void
+     */
+    public function download($options = [])
+    {
+        $url = json_decode($this->_generate($options))->url;
+        header('Content-type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . basename($url) . '"');
+        header('Content-Transfer-Encoding: binary');
+        readfile($url);
+    }
+
+    /**
+     * Return a link to the generated PDF document
+     * 
+     * @param null $options PDFShift options
+     * 
      * @return string
      */
-    public function create($options = [])
+    public function link($options = [])
     {
+        return json_decode($this->_generate($options))->url;
+    }
+
+    // Private Methods
+    // =========================================================================
+
+    /**
+     * Generate the PDF using PDFShift
+     * 
+     * @param null $options PDFShift options
+     * 
+     * @return json
+     */
+    private function _generate($options)
+    {
+        isset($options['filename']) ? $options['filename'] : $options['filename'] = 'document.pdf';
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -38,12 +73,10 @@ class PDFShiftVariable
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => json_encode($options),
             CURLOPT_HTTPHEADER => array('Content-Type:application/json'),
-            CURLOPT_USERPWD => \graftechnology\pdfshift\PDFShift::getInstance()->getSettings()->apiKey,
+            CURLOPT_USERPWD => \graftechnology\pdfshift\PdfShift::getInstance()->getSettings()->apiKey,
         ));
 
-        $response = curl_exec($curl);
-        $filename = isset($options['filename']) ? $options['filename'] . '.pdf' : 'document.pdf';
-        file_put_contents($filename, $response);
+        return curl_exec($curl);
     }
 
 }

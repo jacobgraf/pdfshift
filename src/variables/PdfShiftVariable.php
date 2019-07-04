@@ -17,7 +17,7 @@ use Craft;
 /**
  * @author    Graf Technology, LLC
  * @package   PdfShift
- * @since     1.0.0
+ * @since     1.0.1
  */
 class PdfShiftVariable
 {

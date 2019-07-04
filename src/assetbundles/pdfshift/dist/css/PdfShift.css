@@ -7,5 +7,5 @@
  * @copyright Copyright (c) 2019 Graf Technology, LLC
  * @link      https://graftechnology.com/
  * @package   PdfShift
- * @since     1.0.0
+ * @since     1.0.1
  */

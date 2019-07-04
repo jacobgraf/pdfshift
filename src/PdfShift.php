@@ -26,7 +26,7 @@ use yii\base\Event;
  *
  * @author    Graf Technology, LLC
  * @package   PdfShift
- * @since     1.0.0
+ * @since     1.0.1
  *
  */
 class PdfShift extends Plugin
@@ -47,7 +47,7 @@ class PdfShift extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public $schemaVersion = '1.0.1';
 
     // Public Methods
     // =========================================================================

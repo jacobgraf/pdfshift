@@ -1,4 +1,4 @@
-# PdfShift plugin for Craft CMS 3.x
+# PDFShift plugin for Craft CMS 3.x
 
 Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
 
@@ -28,7 +28,7 @@ To install the plugin, follow these instructions (Alternatively, install from th
 
 Read more here [https://docs.pdfshift.io/#rate-limiting](https://docs.pdfshift.io/#rate-limiting)
 
-## PdfShift Overview
+## PDFShift Overview
 
 Stop wasting time implementing and maintaining a third-party software/library.
 
@@ -37,7 +37,7 @@ With PDFShift, rely on an up-to-date, high-fidelity conversion API with no maint
 [https://pdfshift.io/](https://pdfshift.io/)
 
 
-## Using PdfShift
+## Using PDFShift
 
 ##### Return URL to PDF Document
 

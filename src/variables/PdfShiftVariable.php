@@ -27,7 +27,7 @@ class PdfShiftVariable
     /**
      * Download generated PDF document
      * 
-     * @param null $options PDFShift options
+     * @param null $options PdfShift options
      * 
      * @return void
      */
@@ -43,7 +43,7 @@ class PdfShiftVariable
     /**
      * Return a link to the generated PDF document
      * 
-     * @param null $options PDFShift options
+     * @param null $options PdfShift options
      * 
      * @return string
      */
@@ -58,7 +58,7 @@ class PdfShiftVariable
     /**
      * Generate the PDF using PDFShift
      * 
-     * @param null $options PDFShift options
+     * @param null $options PdfShift options
      * 
      * @return json
      */

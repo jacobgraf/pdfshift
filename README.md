@@ -22,6 +22,12 @@ To install the plugin, follow these instructions (Alternatively, install from th
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for PDFShift.
 
+4. Go to Settings → Plugins → PDFShift → Settings and enter your PDFShift API Key.
+
+**Note:** While testing, you can leave the API Key setting blank, which will give you access to free, watermarked conversions, but are rate-limited to two conversions per minute.
+
+Read more here [https://docs.pdfshift.io/#rate-limiting](https://docs.pdfshift.io/#rate-limiting)
+
 ## PdfShift Overview
 
 Stop wasting time implementing and maintaining a third-party software/library.

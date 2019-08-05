@@ -62,7 +62,6 @@ class PdfShiftVariable
     private function _generate($options)
     {
         isset($options['filename']) ? $options['filename'] : $options['filename'] = 'document.pdf';
-        $options['source'] = 'https://getconnected.works/events/brainspotting-training-phase-1-lawrence/flyer';
 
         $curl = curl_init();
 

@@ -26,25 +26,22 @@ class PdfShiftVariable
 
     /**
      * Download generated PDF document
-     * 
-     * @param null $options PdfShift options
-     * 
-     * @return void
+     *
+     * @param array $options PdfShift options
+     *
+     * @return \yii\web\Response
      */
     public function download($options = [])
     {
-        $url = json_decode($this->_generate($options))->url;
-        header('Content-type: application/pdf');
-        header('Content-Disposition: attachment; filename="' . basename($url) . '"');
-        header('Content-Transfer-Encoding: binary');
-        readfile($url);
+        $response = json_decode($this->_generate($options));
+        header("Location: " . $response->url);
     }
 
     /**
      * Return a link to the generated PDF document
-     * 
-     * @param null $options PdfShift options
-     * 
+     *
+     * @param array $options PdfShift options
+     *
      * @return string
      */
     public function link($options = [])
@@ -60,11 +57,13 @@ class PdfShiftVariable
      * 
      * @param null $options PdfShift options
      * 
-     * @return json
+     * @return string
      */
     private function _generate($options)
     {
         isset($options['filename']) ? $options['filename'] : $options['filename'] = 'document.pdf';
+        $options['source'] = 'https://getconnected.works/events/brainspotting-training-phase-1-lawrence/flyer';
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

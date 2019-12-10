@@ -10,6 +10,7 @@
 
 namespace graftechnology\pdfshift\variables;
 
+use Exception;
 use graftechnology\pdfshift\PdfShift;
 
 use Craft;
@@ -33,8 +34,28 @@ class PdfShiftVariable
      */
     public function download($options = [])
     {
-        $response = json_decode($this->_generate($options));
-        header("Location: " . $response->url);
+        // Set the Output Filename
+        if(isset($options['filename']))
+        {
+            $outputFilename = $options['filename'];
+            unset($options['filename']);
+        } else {
+            $outputFilename = 'document.pdf';
+        }
+
+        // Generate the PDF
+        $data = $this->_generate($options);
+
+        // Download the PDF
+        header("Content-Type: application/pdf");
+        header("Content-Length: " . strlen($data));
+        header("Content-Transfer-Encoding: binary");
+        header('Content-Disposition: attachment; filename="' . $outputFilename . '";');
+        header("Cache-Control: public, must-revalidate, max-age=0");
+        header("Pragma: public");
+        echo $data;
+
+        exit();
     }
 
     /**
@@ -46,6 +67,10 @@ class PdfShiftVariable
      */
     public function link($options = [])
     {
+        // Set the Output Filename
+        isset($options['filename']) ? $options['filename'] : $options['filename'] = 'document.pdf';
+
+        // Generate the PDF and Return the Link
         return json_decode($this->_generate($options))->url;
     }
 
@@ -54,17 +79,14 @@ class PdfShiftVariable
 
     /**
      * Generate the PDF using PDFShift
-     * 
+     *
      * @param null $options PdfShift options
-     * 
+     *
      * @return string
      */
     private function _generate($options)
     {
-        isset($options['filename']) ? $options['filename'] : $options['filename'] = 'document.pdf';
-
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://api.pdfshift.io/v2/convert/",
             CURLOPT_RETURNTRANSFER => true,
@@ -73,8 +95,22 @@ class PdfShiftVariable
             CURLOPT_HTTPHEADER => array('Content-Type:application/json'),
             CURLOPT_USERPWD => \graftechnology\pdfshift\PdfShift::getInstance()->getSettings()->apiKey,
         ));
+        $response = curl_exec($curl);
+        $error = curl_error($curl);
+        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        if (!empty($error)) {
+            throw new Exception($error);
+        } elseif ($statusCode >= 400) {
+            $body = json_decode($response, true);
+            if (isset($body['error'])) {
+                throw new Exception($body['error']);
+            } else {
+                throw new Exception($response);
+            }
+        }
 
-        return curl_exec($curl);
+        return $response;
     }
 
 }

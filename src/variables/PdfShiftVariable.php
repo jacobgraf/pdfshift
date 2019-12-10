@@ -50,7 +50,7 @@ class PdfShiftVariable
         header("Content-Type: application/pdf");
         header("Content-Length: " . strlen($data));
         header("Content-Transfer-Encoding: binary");
-        header('Content-Disposition: attachment; filename="' . $outputFilename . '";');
+        header('Content-Disposition: attachment; filename="' . $outputFilename . '"');
         header("Cache-Control: public, must-revalidate, max-age=0");
         header("Pragma: public");
         echo $data;

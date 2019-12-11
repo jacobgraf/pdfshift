@@ -18,7 +18,7 @@ use Craft;
 /**
  * @author    Graf Technology, LLC
  * @package   PdfShift
- * @since     1.0.1
+ * @since     1.1.0
  */
 class PdfShiftVariable
 {
@@ -28,9 +28,10 @@ class PdfShiftVariable
     /**
      * Download generated PDF document
      *
-     * @param array $options PdfShift options
+     * @param  array  $options  PdfShift options
      *
      * @return \yii\web\Response
+     * @throws Exception
      */
     public function download($options = [])
     {
@@ -61,9 +62,10 @@ class PdfShiftVariable
     /**
      * Return a link to the generated PDF document
      *
-     * @param array $options PdfShift options
+     * @param  array  $options  PdfShift options
      *
      * @return string
+     * @throws Exception
      */
     public function link($options = [])
     {
@@ -80,12 +82,14 @@ class PdfShiftVariable
     /**
      * Generate the PDF using PDFShift
      *
-     * @param null $options PdfShift options
+     * @param  null  $options  PdfShift options
      *
      * @return string
+     * @throws Exception
      */
     private function _generate($options)
     {
+        // Curl Request
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://api.pdfshift.io/v2/convert/",
@@ -99,6 +103,8 @@ class PdfShiftVariable
         $error = curl_error($curl);
         $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
+
+        // Error Handling
         if (!empty($error)) {
             throw new Exception($error);
         } elseif ($statusCode >= 400) {
@@ -110,6 +116,7 @@ class PdfShiftVariable
             }
         }
 
+        // Return Response
         return $response;
     }
 

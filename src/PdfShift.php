@@ -60,6 +60,10 @@ class PdfShift extends Plugin
         parent::init();
         self::$plugin = $this;
 
+        $this->setComponents([
+            'pdfShiftApiService' => \graftechnology\pdfshift\services\PdfShiftApiService::class,
+        ]);
+
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,

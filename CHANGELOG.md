@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.1 - 2026-07-10
+### Fixed
+- `download()` returning an empty response when called from Twig templates. In Craft 4+, templates render while the response is already being sent, so the response is now sent explicitly before the request ends.
+
 ## 2.0.0 - 2026-07-10
 ### Added
 - Craft CMS 4 and 5 compatibility.

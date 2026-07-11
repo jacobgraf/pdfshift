@@ -10,6 +10,15 @@ This plugin requires Craft CMS 4.0 or 5.0, and PHP 8.0.2 or later.
 
 For Craft CMS 3, use version 1.x of this plugin.
 
+## Upgrading from 1.x
+
+Template code is unchanged: `craft.pdfShift.link()` and `craft.pdfShift.download()` work exactly as before, and your existing API Key setting carries over automatically.
+
+Two things to be aware of:
+
+- The plugin now uses the PDFShift v3 API. `source`, `filename`, `format`, and `sandbox` behave the same; if you pass other conversion options, check their names against the [v3 API reference](https://docs.pdfshift.io/api-reference/convert-to-pdf).
+- The API Key setting now accepts an environment variable reference (e.g. `$PDFSHIFT_API_KEY`), which is the recommended way to store it.
+
 ## Installation
 
 To install the plugin, follow these instructions (alternatively, install from the Craft Plugin Store).

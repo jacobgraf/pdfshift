@@ -2,13 +2,13 @@
     "name": "graftechnology/pdfshift",
     "description": "Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.",
     "type": "craft-plugin",
-    "version": "1.1.1",
     "keywords": [
         "craft",
         "cms",
         "craftcms",
         "craft-plugin",
-        "pdfshift"
+        "pdfshift",
+        "pdf"
     ],
     "support": {
         "docs": "https://github.com/jacobgraf/pdfshift/blob/master/README.md",
@@ -22,21 +22,26 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0-RC1",
-        "ext-curl": "*",
-        "ext-json": "*"
+        "php": "^8.0.2",
+        "craftcms/cms": "^4.0|^5.0"
     },
     "autoload": {
         "psr-4": {
-          "graftechnology\\pdfshift\\": "src/"
+            "graftechnology\\pdfshift\\": "src/"
         }
     },
     "extra": {
-        "name": "PdfShift",
+        "name": "PDFShift",
         "handle": "pdfshift",
-        "hasCpSettings": true,
-        "hasCpSection": false,
+        "documentationUrl": "https://github.com/jacobgraf/pdfshift/blob/master/README.md",
         "changelogUrl": "https://raw.githubusercontent.com/jacobgraf/pdfshift/master/CHANGELOG.md",
         "class": "graftechnology\\pdfshift\\PdfShift"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        },
+        "sort-packages": true
     }
 }

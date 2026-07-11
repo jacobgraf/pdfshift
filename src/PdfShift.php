@@ -1,119 +1,73 @@
 <?php
 /**
- * PdfShift plugin for Craft CMS 3.x
+ * PDFShift plugin for Craft CMS
  *
  * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
  *
  * @link      https://graftechnology.com/
- * @copyright Copyright (c) 2019 Graf Technology, LLC
+ * @copyright Copyright (c) Graf Technology, LLC
  */
 
 namespace graftechnology\pdfshift;
 
-use graftechnology\pdfshift\variables\PdfShiftVariable;
-use graftechnology\pdfshift\models\Settings;
-
 use Craft;
+use craft\base\Model;
 use craft\base\Plugin;
-use craft\services\Plugins;
-use craft\events\PluginEvent;
 use craft\web\twig\variables\CraftVariable;
-
+use graftechnology\pdfshift\models\Settings;
+use graftechnology\pdfshift\services\PdfShiftApiService;
+use graftechnology\pdfshift\variables\PdfShiftVariable;
 use yii\base\Event;
 
 /**
- * Class PdfShift
- *
  * @author    Graf Technology, LLC
  * @package   PdfShift
  * @since     1.0.1
  *
+ * @property-read PdfShiftApiService $api
+ * @method Settings getSettings()
  */
 class PdfShift extends Plugin
 {
-    // Static Properties
-    // =========================================================================
+    public static ?PdfShift $plugin = null;
 
-    /**
-     * @var PdfShift
-     */
-    public static $plugin;
+    public bool $hasCpSettings = true;
+    public string $schemaVersion = '1.0.1';
 
-    // Public Properties
-    // =========================================================================
+    public static function config(): array
+    {
+        return [
+            'components' => [
+                'api' => PdfShiftApiService::class,
+            ],
+        ];
+    }
 
-    public $hasCpSettings = true;
-
-    /**
-     * @var string
-     */
-    public $schemaVersion = '1.0.1';
-
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function init(): void
     {
         parent::init();
         self::$plugin = $this;
 
-        $this->setComponents([
-            'pdfShiftApiService' => \graftechnology\pdfshift\services\PdfShiftApiService::class,
-        ]);
-
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
-            function (Event $event) {
+            function(Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('pdfShift', PdfShiftVariable::class);
             }
         );
-
-        Event::on(
-            Plugins::class,
-            Plugins::EVENT_AFTER_INSTALL_PLUGIN,
-            function (PluginEvent $event) {
-                if ($event->plugin === $this) {
-                }
-            }
-        );
-
-        Craft::info(
-            Craft::t(
-                'pdfshift',
-                '{name} plugin loaded',
-                ['name' => $this->name]
-            ),
-            __METHOD__
-        );
     }
 
-    // Protected Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?Model
     {
         return new Settings();
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function settingsHtml(): string
+    protected function settingsHtml(): ?string
     {
-        return Craft::$app->view->renderTemplate(
-            'pdfshift/settings',
-            [
-                'settings' => $this->getSettings()
-            ]
-        );
+        return Craft::$app->getView()->renderTemplate('pdfshift/settings', [
+            'settings' => $this->getSettings(),
+        ]);
     }
 }

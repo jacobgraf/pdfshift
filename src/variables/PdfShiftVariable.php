@@ -1,19 +1,16 @@
 <?php
 /**
- * PdfShift plugin for Craft CMS 3.x
+ * PDFShift plugin for Craft CMS
  *
  * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
  *
  * @link      https://graftechnology.com/
- * @copyright Copyright (c) 2019 Graf Technology, LLC
+ * @copyright Copyright (c) Graf Technology, LLC
  */
 
 namespace graftechnology\pdfshift\variables;
 
-use Exception;
 use graftechnology\pdfshift\PdfShift;
-
-use Craft;
 
 /**
  * @author    Graf Technology, LLC
@@ -23,20 +20,18 @@ use Craft;
 class PdfShiftVariable
 {
     /**
-     * @param  array  $options
+     * Converts the source and streams the PDF to the browser as a download.
      */
-    public function download($options = [])
+    public function download(array $options = []): void
     {
-        PdfShift::getInstance()->pdfShiftApiService->download($options);
+        PdfShift::getInstance()->api->download($options);
     }
 
     /**
-     * @param  array  $options
-     * @return
+     * Converts the source and returns a temporary URL to the hosted PDF.
      */
-    public function link($options = [])
+    public function link(array $options = []): string
     {
-        return PdfShift::getInstance()->pdfShiftApiService->getLink($options);
+        return PdfShift::getInstance()->api->getLink($options);
     }
-
 }

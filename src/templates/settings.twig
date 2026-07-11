@@ -1,26 +1,25 @@
-{# @var craft \craft\web\twig\variables\CraftVariable #}
+{# @var settings \graftechnology\pdfshift\models\Settings #}
 {#
 /**
- * PdfShift plugin for Craft CMS 3.x
+ * PDFShift plugin for Craft CMS
  *
- * PdfShift Settings.twig
+ * PDFShift Settings.twig
  *
  * @author    Graf Technology, LLC
- * @copyright Copyright (c) 2019 Graf Technology, LLC
+ * @copyright Copyright (c) Graf Technology, LLC
  * @link      https://graftechnology.com/
  * @package   PdfShift
- * @since     1.0.0
  */
 #}
 
-{% import "_includes/forms" as forms %}
+{% import '_includes/forms' as forms %}
 
-{% do view.registerAssetBundle("graftechnology\\pdfshift\\assetbundles\\pdfshift\\PdfShiftAsset") %}
-
-{{ forms.textField({
-    label: 'API Key',
-    instructions: 'Enter your PDFShift API Key here.',
+{{ forms.autosuggestField({
+    label: 'API Key'|t('pdfshift'),
+    instructions: 'Your PDFShift API key. This can be set to an environment variable.'|t('pdfshift'),
     id: 'apiKey',
     name: 'apiKey',
-    value: settings.apiKey
+    suggestEnvVars: true,
+    value: settings.apiKey,
+    errors: settings.getErrors('apiKey'),
 }) }}

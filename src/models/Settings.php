@@ -1,19 +1,17 @@
 <?php
 /**
- * PdfShift plugin for Craft CMS 3.x
+ * PDFShift plugin for Craft CMS
  *
  * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
  *
  * @link      https://graftechnology.com/
- * @copyright Copyright (c) 2019 Graf Technology, LLC
+ * @copyright Copyright (c) Graf Technology, LLC
  */
 
 namespace graftechnology\pdfshift\models;
 
-use graftechnology\pdfshift\PdfShift;
-
-use Craft;
 use craft\base\Model;
+use craft\behaviors\EnvAttributeParserBehavior;
 
 /**
  * @author    Graf Technology, LLC
@@ -22,25 +20,25 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    // Public Properties
-    // =========================================================================
-
     /**
-     * @var string
+     * @var string The PDFShift API key, or an environment variable reference (e.g. `$PDFSHIFT_API_KEY`)
      */
-    public $apiKey = '';
+    public string $apiKey = '';
 
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
+    public function behaviors(): array
     {
         return [
-            ['apiKey', 'string'],
-            ['apiKey', 'default', 'value' => ''],
+            'parser' => [
+                'class' => EnvAttributeParserBehavior::class,
+                'attributes' => ['apiKey'],
+            ],
+        ];
+    }
+
+    protected function defineRules(): array
+    {
+        return [
+            [['apiKey'], 'string'],
         ];
     }
 }

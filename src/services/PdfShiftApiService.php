@@ -42,9 +42,19 @@ class PdfShiftApiService extends Component
 
         $pdf = $this->convert($options);
 
-        Craft::$app->getResponse()->sendContentAsFile($pdf, $filename, [
+        $response = Craft::$app->getResponse();
+        $response->sendContentAsFile($pdf, $filename, [
             'mimeType' => 'application/pdf',
         ]);
+
+        // In Craft 4+, templates render while the response is already being
+        // sent (TemplateResponseFormatter), so Application::end() alone would
+        // skip the send and the browser would receive an empty response.
+        // Clear the render buffers and send this response directly instead.
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
+        $response->send();
         Craft::$app->end();
     }
 

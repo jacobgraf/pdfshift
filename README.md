@@ -1,4 +1,4 @@
-# PDFShift plugin for Craft CMS 3.x
+# PDFShift plugin for Craft CMS
 
 Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
 
@@ -6,11 +6,13 @@ Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-beta.23 or later.
+This plugin requires Craft CMS 4.0 or 5.0, and PHP 8.0.2 or later.
+
+For Craft CMS 3, use version 1.x of this plugin.
 
 ## Installation
 
-To install the plugin, follow these instructions (Alternatively, install from the Craft Plugin Store).
+To install the plugin, follow these instructions (alternatively, install from the Craft Plugin Store).
 
 1. Open your terminal and go to your Craft project:
 
@@ -18,15 +20,15 @@ To install the plugin, follow these instructions (Alternatively, install from th
 
 2. Then tell Composer to load the plugin:
 
-        composer require jacobgraf/pdfshift
+        composer require graftechnology/pdfshift
 
-3. In the Control Panel, go to Settings → Plugins and click the “Install” button for PDFShift.
+3. In the Control Panel, go to Settings → Plugins and click the "Install" button for PDFShift.
 
-4. Go to Settings → Plugins → PDFShift → Settings and enter your PDFShift API Key.
+4. Go to Settings → Plugins → PDFShift → Settings and enter your PDFShift API Key. The setting accepts an environment variable reference (e.g. `$PDFSHIFT_API_KEY`), which keeps the key out of project config.
 
-**Note:** While testing, you can leave the API Key setting blank, which will give you access to free, watermarked conversions, but are rate-limited to two conversions per minute.
+**Note:** While testing, you can pass `sandbox: true` in your conversion options for free, watermarked conversions that don't count against your plan.
 
-Read more here [https://docs.pdfshift.io/#rate-limiting](https://docs.pdfshift.io/#rate-limiting)
+Read more here [https://docs.pdfshift.io/](https://docs.pdfshift.io/)
 
 ## PDFShift Overview
 
@@ -41,26 +43,28 @@ With PDFShift, rely on an up-to-date, high-fidelity conversion API with no maint
 
 ##### Return URL to PDF Document
 
-```
+Returns a temporary URL to the converted PDF (hosted by PDFShift for two days):
+
+```twig
 {{ craft.pdfShift.link({
     source: 'https://www.google.com/',
     filename: 'google.pdf',
-    format: 'letter',
+    format: 'Letter',
     sandbox: true
 }) }}
-
 ```
 
 ##### Download PDF Document
 
-```
+Streams the converted PDF to the browser as a download:
+
+```twig
 {{ craft.pdfShift.download({
     source: 'https://www.google.com/',
     filename: 'google.pdf',
-    format: 'letter',
+    format: 'Letter',
     sandbox: true
 }) }}
-
 ```
 
 ### Options
@@ -69,7 +73,7 @@ With PDFShift, rely on an up-to-date, high-fidelity conversion API with no maint
 
 `filename` is optional and defaults to `document.pdf`.
 
-All available options are listed here [https://docs.pdfshift.io/#general](https://docs.pdfshift.io/#general)
+All other options are passed straight through to the PDFShift v3 API. The full list is here: [https://docs.pdfshift.io/api-reference/convert-to-pdf](https://docs.pdfshift.io/api-reference/convert-to-pdf)
 
 ---
 

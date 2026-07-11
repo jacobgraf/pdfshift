@@ -1,88 +1,100 @@
 <?php
+/**
+ * PDFShift plugin for Craft CMS
+ *
+ * Easily implement PDFShift (https://pdfshift.io/) into Craft CMS.
+ *
+ * @link      https://graftechnology.com/
+ * @copyright Copyright (c) Graf Technology, LLC
+ */
+
 namespace graftechnology\pdfshift\services;
 
+use Craft;
+use craft\helpers\App;
+use craft\helpers\Json;
+use graftechnology\pdfshift\PdfShift;
+use GuzzleHttp\Exception\RequestException;
 use yii\base\Component;
 use yii\base\Exception;
 
+/**
+ * @author    Graf Technology, LLC
+ * @package   PdfShift
+ * @since     1.1.0
+ */
 class PdfShiftApiService extends Component
 {
+    private const API_ENDPOINT = 'https://api.pdfshift.io/v3/convert/pdf';
+
     /**
-     * @param  array  $options
+     * Converts the source and streams the PDF to the browser as a download.
+     *
      * @throws Exception
      */
-    public function download($options = [])
+    public function download(array $options = []): void
     {
-        // Set the Output Filename
-        if(isset($options['filename']))
-        {
-            $outputFilename = $options['filename'];
-            unset($options['filename']);
-        } else {
-            $outputFilename = 'document.pdf';
+        $filename = $options['filename'] ?? 'document.pdf';
+
+        // Passing `filename` to the API returns a JSON URL instead of the
+        // binary PDF, so it must never reach the conversion payload here
+        unset($options['filename']);
+
+        $pdf = $this->convert($options);
+
+        Craft::$app->getResponse()->sendContentAsFile($pdf, $filename, [
+            'mimeType' => 'application/pdf',
+        ]);
+        Craft::$app->end();
+    }
+
+    /**
+     * Converts the source and returns a temporary URL to the hosted PDF.
+     *
+     * @throws Exception
+     */
+    public function getLink(array $options = []): string
+    {
+        $options['filename'] ??= 'document.pdf';
+
+        return Json::decode($this->convert($options))['url'];
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function convert(array $options): string
+    {
+        $apiKey = App::parseEnv(PdfShift::getInstance()->getSettings()->apiKey);
+
+        try {
+            $response = Craft::createGuzzleClient(['timeout' => 120])->post(self::API_ENDPOINT, [
+                'headers' => ['X-API-Key' => $apiKey],
+                'json' => $options,
+            ]);
+        } catch (RequestException $e) {
+            throw new Exception($this->extractErrorMessage($e), 0, $e);
         }
 
-        // PdfShiftApiService the PDF
-        $data = $this->generate($options);
-
-        // Download the PDF
-        header("Content-Type: application/pdf");
-        header("Content-Length: " . strlen($data));
-        header("Content-Transfer-Encoding: binary");
-        header('Content-Disposition: attachment; filename="' . $outputFilename . '"');
-        header("Cache-Control: public, must-revalidate, max-age=0");
-        header("Pragma: public");
-        echo $data;
+        return (string)$response->getBody();
     }
 
-    /**
-     * @param  array  $options
-     * @return mixed
-     * @throws Exception
-     */
-    public function getLink($options = [])
+    private function extractErrorMessage(RequestException $e): string
     {
-        // Set the Output Filename
-        isset($options['filename']) ? $options['filename'] : $options['filename'] = 'document.pdf';
+        if ($e->hasResponse()) {
+            $body = Json::decodeIfJson((string)$e->getResponse()->getBody());
 
-        // PdfShiftApiService the PDF and Return the Link
-        return json_decode($this->generate($options))->url;
-    }
+            if (is_array($body)) {
+                if (!empty($body['error'])) {
+                    return is_string($body['error']) ? $body['error'] : Json::encode($body['error']);
+                }
 
-    /**
-     * @param  array  $options
-     * @return bool|string
-     * @throws Exception
-     */
-    private function generate($options = [])
-    {
-        // Curl Request
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.pdfshift.io/v2/convert/",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => json_encode($options),
-            CURLOPT_HTTPHEADER => array('Content-Type:application/json'),
-            CURLOPT_USERPWD => \graftechnology\pdfshift\PdfShift::getInstance()->getSettings()->apiKey,
-        ));
-        $response = curl_exec($curl);
-        $error = curl_error($curl);
-        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
-
-        // Error Handling
-        if (!empty($error)) {
-            throw new Exception($error);
-        } elseif ($statusCode >= 400) {
-            $body = json_decode($response, true);
-            if (isset($body['error'])) {
-                throw new Exception($body['error']);
-            } else {
-                throw new Exception($response);
+                if (!empty($body['errors'])) {
+                    return Json::encode($body['errors']);
+                }
             }
         }
 
-        // Return Response
-        return $response;
+        return $e->getMessage();
     }
 }
